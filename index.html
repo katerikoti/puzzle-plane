@@ -1,105 +1,130 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" >
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Escape to Grandma’s!</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Puzzle Plane</title>
   <style>
-    body, html {
+    body {
       margin: 0;
-      padding: 0;
+      background: #87ceeb;
       font-family: 'Comic Sans MS', cursive, sans-serif;
-      background-color: #f8f8f8;
-    }
-
-    .welcome-page {
       text-align: center;
-      padding: 40px 20px;
+      user-select: none;
     }
 
     h1 {
+      color: white;
       font-size: 3em;
-      margin-bottom: 10px;
-      color: #333;
+      margin: 20px 0 10px;
+      text-shadow: 2px 2px 5px #004466;
     }
 
     .intro {
+      color: white;
       font-size: 1.2em;
-      margin-bottom: 40px;
-      color: #666;
+      margin-bottom: 30px;
+      text-shadow: 1px 1px 2px #003344;
     }
 
-    .game-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-      gap: 20px;
-      max-width: 900px;
+    .svg-wrapper {
+      max-width: 1000px;
       margin: 0 auto;
     }
 
-    .game-card {
-      background: #ffffff;
-      border: 2px solid #ccc;
-      border-radius: 15px;
-      padding: 10px;
-      transition: all 0.3s ease;
-      opacity: 0.6;
-      cursor: not-allowed;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-
-    .game-card img {
+    svg {
       width: 100%;
-      border-radius: 10px;
-      object-fit: cover;
+      height: auto;
     }
 
-    .game-card p {
-      margin-top: 10px;
-      font-weight: bold;
-      color: #555;
+    /* Oval windows */
+    .window {
+      fill: #ffffff;
+      stroke: #666;
+      stroke-width: 3;
+      cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32"><rect width="32" height="24" rx="6" ry="6" fill="%23008080"/><text x="16" y="18" font-size="14" fill="white" font-family="Arial" font-weight="bold" text-anchor="middle">✈</text></svg>') 16 12, pointer;
+      transition: fill 0.3s ease;
     }
 
-    .game-card.active {
-      border-color: #4CAF50;
-      opacity: 1;
-      cursor: pointer;
+    .window:hover {
+      fill: #b0ffb0;
     }
 
-    .game-card.active:hover {
-      transform: scale(1.05);
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    .coming-soon {
+      fill: #dddddd;
+      stroke: #999;
+      cursor: default;
+      pointer-events: none;
+    }
+
+    .label {
+      font-size: 12px;
+      fill: black;
+      text-anchor: middle;
+      user-select: none;
     }
   </style>
 </head>
 <body>
-  <div class="welcome-page">
-    <h1>Escape to Grandma’s!</h1>
-    <p class="intro">Solve puzzles and travel from Finland to Czechia to see Grandma!</p>
+  <h1>Puzzle Plane</h1>
+  <p class="intro">Choose a window to start your puzzle adventure!</p>
 
-    <div class="game-grid">
-      <!-- Active Game Card -->
-      <div class="game-card active" onclick="startGame()">
-        <img src="images/grandma-game-thumbnail.jpg" alt="Grandma Game">
-        <p>Grandma Game</p>
-      </div>
+  <div class="svg-wrapper">
+    <svg viewBox="0 0 1000 350" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Cartoon airplane with 5 windows">
+      <!-- Plane body -->
+      <rect x="150" y="140" rx="70" ry="70" width="700" height="100" fill="#e0e0e0" />
+      <!-- Nose cone -->
+      <polygon points="850,140 950,180 850,240" fill="#c0c0c0"/>
+      <!-- Tail -->
+      <rect x="90" y="160" width="40" height="60" fill="#bbb" rx="15" ry="15" />
+      <!-- Wings -->
+      <polygon points="350,120 500,100 520,130 370,150" fill="#bbb" />
+      <polygon points="530,210 680,190 700,220 550,240" fill="#bbb" />
 
-      <!-- Placeholder Locked Cards -->
-      <div class="game-card"><p>Coming Soon</p></div>
-      <div class="game-card"><p>Coming Soon</p></div>
-      <div class="game-card"><p>Coming Soon</p></div>
-      <div class="game-card"><p>Coming Soon</p></div>
-      <div class="game-card"><p>Coming Soon</p></div>
-    </div>
+      <!-- Windows (oval) -->
+      <!-- Window 1 (clickable) -->
+      <a href="#" id="start-window" aria-label="Start Grandma Game Window" tabindex="0">
+        <ellipse class="window" cx="300" cy="190" rx="35" ry="22" />
+      </a>
+
+      <!-- Windows 2-5 (coming soon) -->
+      <ellipse class="window coming-soon" cx="430" cy="190" rx="35" ry="22" />
+      <ellipse class="window coming-soon" cx="560" cy="190" rx="35" ry="22" />
+      <ellipse class="window coming-soon" cx="690" cy="190" rx="35" ry="22" />
+      <ellipse class="window coming-soon" cx="820" cy="190" rx="35" ry="22" />
+
+      <!-- Labels -->
+      <text class="label" x="300" y="230">Start!</text>
+      <text class="label" x="430" y="230">Coming Soon</text>
+      <text class="label" x="560" y="230">Coming Soon</text>
+      <text class="label" x="690" y="230">Coming Soon</text>
+      <text class="label" x="820" y="230">Coming Soon</text>
+    </svg>
   </div>
 
+  <!-- Airplane sound audio -->
+  <audio id="airplane-sound" src="https://actions.google.com/sounds/v1/transportation/airplane_flyby.ogg" preload="auto"></audio>
+
   <script>
-    function startGame() {
-      // Replace with the path to your actual game page
-      window.location.href = "grandma-game.html";
-    }
+    const startWindow = document.getElementById('start-window');
+    const airplaneSound = document.getElementById('airplane-sound');
+
+    startWindow.addEventListener('click', (e) => {
+      e.preventDefault();
+      airplaneSound.play();
+      // Wait for sound to finish or ~2 seconds, then navigate
+      setTimeout(() => {
+        window.location.href = 'grandma-game.html';
+      }, 2000);
+    });
+
+    // Accessibility: also start on Enter keypress
+    startWindow.addEventListener('keydown', (e) => {
+      if(e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        startWindow.click();
+      }
+    });
   </script>
 </body>
 </html>
