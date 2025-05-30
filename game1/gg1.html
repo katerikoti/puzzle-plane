@@ -32,21 +32,21 @@
 
     .boys-container {
       position: absolute;
-      bottom: 20px;
-      left: 20px;
+      bottom: 10px;
+      left: 10px;
       z-index: 1;
       cursor: pointer;
     }
 
     .boys-container img {
-      width: 160px;
+      width: 200px;
       height: auto;
       border-radius: 8px;
     }
 
     .speech-bubble {
       position: absolute;
-      bottom: 250px;
+      bottom: 300px;
       left: 40px;
       background: white;
       border: 2px solid black;
@@ -93,21 +93,10 @@
       <img src="https://i.imgur.com/o1YNNzv.png" alt="Two boys" />
     </div>
 
-  <div class="speech-bubble">
-  <strong>Help us pack for our trip to grandma’s!</strong>
-  <div class="checklist">
-    <div class="column">
-      <p>1. Lion plushie</p>
-      <p>2. Bunny plushie</p>
-      <p>3. Blue shoes</p>
-    </div>
-    <div class="column">
-      <p>4. Red shoes</p>
-      <p>5. Water bottles</p>
-      <p>6. Gift for our cousin</p>
+<div class="speech-bubble" id="speechBubble">
+      Help us find everything we need to pack!
     </div>
   </div>
-</div>
 
   <script>
     function toggleBubble() {
