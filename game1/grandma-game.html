@@ -20,9 +20,9 @@
     background: white;
     border-radius: 12px;
     box-shadow: 0 8px 16px rgba(0,0,0,0.2);
-    max-width: 800px;
+    max-width: 600px;
     width: 90vw;
-    min-height: 550px;
+    min-height: 400px;
     padding: 20px;
     box-sizing: border-box;
     position: relative;
@@ -55,23 +55,36 @@
 
   /* Boys image */
   .boys-container img {
-    width: 130px;
+    width: 80px;
     height: auto;
     border-radius: 8px;
     flex-shrink: 0;
-  
   }
-  /* Responsive tweaks */
-  @media (max-width: 400px) {
-    .boys-container {
-      max-width: 140px;
-      left: 10px;
-      bottom: 15px;
-    
-    }
-    .boys-container img {
-      width: 60px;
-    }
+
+  /* Speech bubble */
+  .speech-bubble {
+    position: relative;
+    background: #00796b;
+    color: white;
+    padding: 12px 16px;
+    border-radius: 15px;
+    margin-left: 10px;
+    font-size: 0.9rem;
+    line-height: 1.3;
+    max-width: 100px;
+  }
+
+  /* Speech bubble arrow */
+  .speech-bubble::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: -10px;
+    transform: translateY(-50%);
+    border: 10px solid transparent;
+    border-right-color: #00796b;
+  }
+
   /* Start button */
   .start-btn {
     display: block;
@@ -89,6 +102,22 @@
   .start-btn:hover {
     background-color: #004d40;
   }
+
+  /* Responsive tweaks */
+  @media (max-width: 400px) {
+    .boys-container {
+      max-width: 140px;
+      left: 10px;
+      bottom: 15px;
+    }
+    .speech-bubble {
+      max-width: 80px;
+      font-size: 0.8rem;
+    }
+    .boys-container img {
+      width: 60px;
+    }
+  }
 </style>
 </head>
 <body>
@@ -99,6 +128,9 @@
 
     <div class="boys-container">
       <img src="https://i.imgur.com/o1YNNzv.png" alt="Two boys" />
+      <div class="speech-bubble">
+        Hi! Help us get to Grandma's by solving puzzles. Click Start to begin!
+      </div>
     </div>
 
     <button class="start-btn" onclick="startGame()">Start</button>
