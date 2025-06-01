@@ -130,8 +130,8 @@
   position: absolute;
   width: 40px;
   height: 40px;
-  background: rgba(255, 0, 0, 0.4); /* semi-transparent red for visibility */
-  border: 2px dashed red;
+  background: transparent;
+  border: none;
   border-radius: 8px;
   cursor: pointer;
   z-index: 5;
@@ -188,7 +188,7 @@
     </div>
 
     <div class="speech-bubble" id="speechBubble">
-      Help my little brother pack!
+      Help my little brother Amos pack!
     </div>
 
     <div class="hidden-item item1" data-item="Bunny plushie" title="Bunny plushie"></div>
@@ -224,7 +224,6 @@
         if (!checkedItems.has(name)) {
           checkedItems.add(name);
           markItemChecked(name);
-          item.style.background = 'rgba(0, 200, 0, 0.7)';
           item.style.pointerEvents = 'none';
           checkAllCollected();
         }
