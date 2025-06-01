@@ -22,34 +22,169 @@
       background-size: cover;
       border-radius: 25px;
       box-shadow: 0 8px 16px rgba(0,0,0,0.2);
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-end;
-      padding: 20px;
-      box-sizing: border-box;
-      color: white;
-      text-shadow: 1px 1px 4px rgba(0,0,0,0.8);
+      position: relative;
       user-select: none;
+      overflow: visible;
     }
 
-    #math-problem {
-      background: rgba(0,0,0,0.5);
-      border-radius: 12px;
-      padding: 15px 20px;
-      font-size: 1.4rem;
-      text-align: center;
-      min-height: 70px;
+    #train {
+      position: absolute;
+      width: 40px;
+      height: auto;
+      top: 0;
+      left: 0;
+      transition: top 0.8s ease, left 0.8s ease;
+      user-select: none;
+      pointer-events: none;
+      z-index: 5;
     }
 
+#problem-container {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  background: white;
+  border: 3px solid #0288d1; /* blue frame */
+  padding: 12px 18px;
+  border-radius: 12px;
+  max-width: 180px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  user-select: text;
+  text-align: center;
+  font-weight: bold;
+  z-index: 10;
+}
+
+#problem-container label {
+  display: inline-block;
+  margin-right: 8px;
+  font-size: 1.1rem;
+  vertical-align: middle;
+}
+
+#answer-input {
+  width: 60px;
+  font-size: 1.1rem;
+  padding: 4px 8px;
+  border-radius: 8px;
+  border: 2px solid #0288d1;
+  outline: none;
+  color: #0288d1;
+  vertical-align: middle;
+}
+
+#answer-input:focus {
+  border-color: #015a9c;
+  box-shadow: 0 0 5px #015a9c;
+}
+
+#submit-btn {
+  margin-top: 10px;
+  width: 100%;
+  padding: 7px;
+  font-size: 1rem;
+  border-radius: 8px;
+  border: 2px solid #0288d1;
+  background-color: white;
+  color: #0288d1;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+#submit-btn:hover {
+  background-color: #0288d1;
+  color: white;
+}
   </style>
 </head>
 <body>
 
-  <div class="game-window">
-    <div id="math-problem">
-      Solve this: <span id="problem-text">5 + 3 = ?</span>
-    </div>
+  <div class="game-window" id="gameWindow">
+    <img id="train" src="https://i.imgur.com/Bq9upZL.png" alt="Train icon" />
+    
+   <div id="problem-container">
+  <label for="answer-input" style="font-weight:bold; font-size:1.1rem; color:#0288d1; user-select:none;">
+    Problem =
+  </label>
+  <input id="answer-input" type="text" autocomplete="off" />
+  <button id="submit-btn">Submit</button>
+</div>
   </div>
+
+  <script>
+    // City points (x, y) in px relative to game-window top-left corner
+    // Adjust these to fit your map exactly
+    const cityPoints = [
+      {x: 585, y: 70},   // Joensuu (start)
+      {x: 140, y: 100}, // Kitee
+      {x: 220, y: 130}, // Kesälahti
+      {x: 290, y: 170}, // Parikkala
+      {x: 370, y: 220}, // Imatra
+      {x: 450, y: 270}  // Helsinki Airport (final)
+    ];
+
+    const problems = [
+      { question: "5 + 3", answer: 8 },
+      { question: "10 - 4", answer: 6 },
+      { question: "7 + 6", answer: 13 },
+      { question: "20 - 5", answer: 15 },
+      { question: "15 + 7", answer: 22 }
+    ];
+
+    const train = document.getElementById('train');
+    const problemText = document.getElementById('problem-text');
+    const answerInput = document.getElementById('answer-input');
+    const submitBtn = document.getElementById('submit-btn');
+
+    let currentStep = 0;
+
+    // Initialize train position on first city
+    function setTrainPosition(step) {
+      const pos = cityPoints[step];
+      train.style.left = pos.x + 'px';
+      train.style.top = pos.y + 'px';
+    }
+
+    // Show current math problem
+    function showProblem(step) {
+      if (step < problems.length) {
+        problemText.textContent = `Solve: ${problems[step].question} = ?`;
+        answerInput.value = '';
+        answerInput.focus();
+      }
+    }
+
+    // When user submits answer
+    submitBtn.addEventListener('click', () => {
+      const userAnswer = Number(answerInput.value);
+      if (userAnswer === problems[currentStep].answer) {
+        currentStep++;
+        if (currentStep >= cityPoints.length) {
+          // End game
+          alert("Congratulations! You've reached Helsinki Airport!");
+          // Redirect or do next step here
+          return;
+        }
+        setTrainPosition(currentStep);
+        if (currentStep < problems.length) {
+          showProblem(currentStep);
+        } else {
+          // No more problems, but train still moves to last point
+          problemText.textContent = "All done! Well done!";
+          answerInput.style.display = 'none';
+          submitBtn.style.display = 'none';
+        }
+      } else {
+        alert('Oops, try again!');
+        answerInput.focus();
+      }
+    });
+
+    // Start game
+    setTrainPosition(0);
+    showProblem(0);
+  </script>
 
 </body>
 </html>
