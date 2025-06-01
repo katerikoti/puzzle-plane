@@ -23,7 +23,7 @@
       box-shadow: 0 8px 16px rgba(0,0,0,0.2);
       max-width: 800px;
       width: 95vw;
-      aspect-ratio: 16/10;
+      min-height: 500px;
       padding: 30px 20px;
       box-sizing: border-box;
       position: relative;
@@ -32,27 +32,27 @@
 
     .boys-container {
       position: absolute;
-      bottom: 2%;
-      left: 2%;
+      bottom: 10px;
+      left: 10px;
       z-index: 2;
       cursor: pointer;
     }
 
     .boys-container img {
-      width: 25%;
+      width: 200px;
       height: auto;
       border-radius: 8px;
     }
 
     .speech-bubble {
       position: absolute;
-      bottom: 70%;
-      left: 6%;
+      bottom: 305px;
+      left: 40px;
       background: white;
       border: 1px solid rgba(0,0,0,0.5);
       border-radius: 12px;
       padding: 12px 16px;
-      width: 35%;
+      max-width: 300px;
       font-size: 1rem;
       color: #333;
       box-shadow: 2px 2px 6px rgba(0,0,0,0.2);
@@ -65,6 +65,8 @@
       position: absolute;
       bottom: -20px;
       left: 30px;
+      width: 0;
+      height: 0;
       border-left: 12px solid transparent;
       border-right: 12px solid transparent;
       border-top: 20px solid black;
@@ -76,6 +78,8 @@
       position: absolute;
       bottom: -18px;
       left: 32px;
+      width: 0;
+      height: 0;
       border-left: 10px solid transparent;
       border-right: 10px solid transparent;
       border-top: 18px solid white;
@@ -83,13 +87,13 @@
 
     .checklist-small {
       position: absolute;
-      bottom: 3%;
-      right: 3%;
+      bottom: 15px;
+      right: 15px;
       background: rgba(255, 255, 255, 0.8);
       border: 1px solid rgba(0,0,0,0.5);
       border-radius: 12px;
       padding: 10px 14px;
-      width: 28%;
+      max-width: 220px;
       font-size: 0.8rem;
       color: #333;
       box-shadow: 2px 2px 6px rgba(0,0,0,0.2);
@@ -109,7 +113,7 @@
     }
 
     .checklist-item.checked::before {
-      content: "\2611 ";
+      content: "☑ ";
       color: green;
     }
 
@@ -118,27 +122,28 @@
     }
 
     .checklist-item::before {
-      content: "\2610 ";
+      content: "☐ ";
       color: black;
     }
 
     .hidden-item {
-      position: absolute;
-      width: 5%;
-      aspect-ratio: 1;
-      background: transparent;
-      opacity: 0;
-      border-radius: 8px;
-      cursor: pointer;
-      z-index: 5;
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  background: rgba(255, 0, 0, 0.4); /* semi-transparent red for visibility */
+  border: 2px dashed red;
+  border-radius: 8px;
+  cursor: pointer;
+  z-index: 5;
     }
 
-    .item1 { top: 12%; left: 11%; }
-    .item2 { top: 84%; left: 44%; }
-    .item3 { top: 42%; left: 47%; }
-    .item4 { top: 50%; left: 85%; }
-    .item5 { top: 31%; left: 76%; }
+    .item1 { top: 10%; left: 11%; }
+.item2 { top: 84%; left: 46%; }
+.item3 { top: 42%; left: 49%; }
+.item4 { top: 48%; left: 85%; }
+.item5 { top: 30%; left: 78%; }
 
+    /* Completion popup */
     #completionPopup {
       display: none;
       position: absolute;
@@ -176,6 +181,7 @@
   </style>
 </head>
 <body>
+
   <div class="game-window">
     <div class="boys-container" onclick="toggleBubble()">
       <img src="https://i.imgur.com/o1YNNzv.png" alt="Two boys" />
@@ -200,6 +206,7 @@
       <div class="checklist-item" data-item="Gift for cousin">Gift for cousin</div>
     </div>
 
+    <!-- Custom popup -->
     <div id="completionPopup">
       <p>Thank you, everything's packed.</p>
       <button onclick="goToNextPage()">Let’s go!</button>
@@ -247,5 +254,6 @@
       bubble.style.display = bubble.style.display === 'none' ? 'block' : 'none';
     }
   </script>
+
 </body>
 </html>
