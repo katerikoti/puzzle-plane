@@ -41,43 +41,44 @@
       z-index: 5;
     }
 
-    #problem-container {
-      position: absolute;
-      bottom: 20px;
-      right: 20px;
-      background: white;
-      border: 2px solid #0288d1;
-      padding: 12px 18px;
-      border-radius: 12px;
-      width: 210px;
-      max-width: 90vw;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-      user-select: none;
-      text-align: center;
-      font-weight: bold;
-      z-index: 10;
-      box-sizing: border-box;
-      font-size: 16px;
-    }
+   #problem-container {
+  position: absolute;
+  bottom: 3%;
+  right: 3%;
+  background: white;
+  border: 0.3% solid #0288d1;
+  padding: 3% 3%;
+  border-radius: 2%;
+  width: 25%;        /* relative width */
+  max-width: 90vw;
+  min-width: 180px;  /* prevent too small */
+  box-shadow: 0 0.3% 0.8% rgba(0,0,0,0.1);
+  user-select: none;
+  text-align: center;
+  font-weight: bold;
+  z-index: 10;
+  box-sizing: border-box;
+  font-size: clamp(14px, 1.2vw, 18px);
+}
 
-    #problem-text {
-      color: #0288d1;
-      user-select: none;
-      font-size: 16px;
-    }
+#problem-text {
+  color: #0288d1;
+  user-select: none;
+  font-size: clamp(14px, 1.1vw, 18px);
+}
 
-    #answer-input {
-      width: 60px;
-      font-size: 16px;
-      padding: 5px 8px;
-      border-radius: 8px;
-      border: 1px solid #0288d1;
-      outline: none;
-      color: #0288d1;
-      text-align: center;
-      margin-left: 6px;
-      box-sizing: border-box;
-    }
+#answer-input {
+  width: 30%;        /* relative to problem container */
+  font-size: clamp(14px, 1vw, 16px);
+  padding: 1% 2%;
+  border-radius: 1.5%;
+  border: 0.15% solid #0288d1;
+  outline: none;
+  color: #0288d1;
+  text-align: center;
+  margin-left: 2%;
+  box-sizing: border-box;
+}
 
     #answer-input:focus {
       border-color: #015a9c;
@@ -167,7 +168,7 @@
     </div>
 
     <div id="completionPopup">
-      <p>You solved all the problems!</p>
+      <p>Yay! We made it to the airport!</p>
       <button onclick="goToNextPage()">Let’s go!</button>
     </div>
   </div>
@@ -206,7 +207,7 @@
 
     function showProblem(step) {
       if (step < problems.length) {
-        problemText.textContent = `Solve: ${problems[step].question} =`;
+        problemText.textContent = `Solve to move the train across the map: ${problems[step].question} =`;
         answerInput.value = '';
         answerInput.focus();
       }
