@@ -32,8 +32,8 @@
 
     .boys-container {
       position: absolute;
-      bottom: 2px;
-      left: 2px;
+      bottom: 5px;
+      left: 10px;
       z-index: 2;
       cursor: pointer;
     }
@@ -44,45 +44,58 @@
       border-radius: 8px;
     }
 
-    .speech-bubble {
+ .speech-bubble {
+  position: absolute;
+  top: 250px;         /* Instead of bottom */
+  left: 210px;       /* To the right of the boys */
+  background: white;
+  border: 1px solid rgba(0,0,0,0.5);
+  border-radius: 12px;
+  padding: 12px 16px;
+  max-width: 250px;
+  font-size: 1rem;
+  color: #333;
+  box-shadow: 2px 2px 6px rgba(0,0,0,0.2);
+  z-index: 3;
+  display: block;
+}
+
+.speech-bubble::after {
+  content: "";
+  position: absolute;
+  top: 30px;
+  left: -20px;
+  width: 0;
+  height: 0;
+  border-top: 12px solid transparent;
+  border-bottom: 12px solid transparent;
+  border-right: 20px solid black;
+  z-index: -1;
+}
+
+.speech-bubble::before {
+  content: "";
+  position: absolute;
+  top: 32px;
+  left: -18px;
+  width: 0;
+  height: 0;
+  border-top: 10px solid transparent;
+  border-bottom: 10px solid transparent;
+  border-right: 18px solid white;
+}
+
+    .phone-image {
       position: absolute;
-      bottom: 305px;
-      left: 40px;
-      background: white;
-      border: 1px solid rgba(0,0,0,0.5);
-      border-radius: 12px;
-      padding: 12px 16px;
-      max-width: 300px;
-      font-size: 1rem;
-      color: #333;
-      box-shadow: 2px 2px 6px rgba(0,0,0,0.2);
-      z-index: 3;
-      display: block;
+      bottom: 5px;
+      right: 1px;
+      height: 65%;
+      z-index: 2;
     }
 
-    .speech-bubble::after {
-      content: "";
-      position: absolute;
-      bottom: -20px;
-      left: 30px;
-      width: 0;
-      height: 0;
-      border-left: 12px solid transparent;
-      border-right: 12px solid transparent;
-      border-top: 20px solid black;
-      z-index: -1;
-    }
-
-    .speech-bubble::before {
-      content: "";
-      position: absolute;
-      bottom: -18px;
-      left: 32px;
-      width: 0;
-      height: 0;
-      border-left: 10px solid transparent;
-      border-right: 10px solid transparent;
-      border-top: 18px solid white;
+    .phone-image img {
+      height: 100%;
+      width: auto;
     }
   </style>
 </head>
@@ -94,7 +107,11 @@
     </div>
 
     <div class="speech-bubble" id="speechBubble">
-      We are bored on the flight, but the phone is locked. Can you figure out the passcode?
+      We are bored on the flight, but the phone is locked so we can't play. Can you figure out the passcode?
+    </div>
+
+    <div class="phone-image">
+      <img src="https://i.imgur.com/dz0E8wD.png" alt="Locked phone" />
     </div>
   </div>
 
