@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Flight Game</title>
   <style>
+    /* Your CSS remains unchanged */
     html, body {
       margin: 0;
       padding: 0;
@@ -46,14 +47,15 @@
 
     .speech-bubble {
       position: absolute;
-      bottom: 30%;
-      left: 29%;
-      width: 25%;  /* percent width to keep bubble size relative */
+      bottom: 25%;
+      left: 27%;
+      width: 200px;
+      max-width: 90vw;
       background: white;
       border: 1px solid rgba(0,0,0,0.5);
-      border-radius: 1.5vw;
-      padding: 1.5vw;
-      font-size: 2vw;
+      border-radius: 24px;
+      padding: 16px 24px;
+      font-size: 16px;
       color: #333;
       box-shadow: 2px 2px 6px rgba(0,0,0,0.2);
       z-index: 3;
@@ -110,23 +112,35 @@
       display: flex;
       gap: 2%;
       z-index: 3;
-      width: 18%; /* set width so digits fill nicely */
+      width: 18%;
     }
 
     .digit {
-  width: 18%; /* keep your sizing */
-  aspect-ratio: 1 / 1;
-  font-size: 1.8vw;
-  text-align: center;
-  background: transparent; /* no background */
-  border: none;             /* remove border */
-  color: white;             /* white digits */
-  outline: none;            /* remove outline on focus */
-  user-select: none;
-  box-sizing: border-box;
-  /* optionally add some letter spacing for better clarity */
-  letter-spacing: 0.1em;
-}
+      width: 18%;
+      aspect-ratio: 1 / 1;
+      font-size: 1.8vw;
+      text-align: center;
+      background: transparent;
+      border: none;
+      color: white;
+      outline: none;
+      user-select: none;
+      box-sizing: border-box;
+      letter-spacing: 0.1em;
+    }
+
+    #errorMessage {
+      color: red;
+      text-align: center;
+      margin-top: 8px;
+      font-weight: bold;
+      display: none; /* hide initially */
+      position: absolute;
+      bottom: 29%;
+      right: 6.5%;
+      width: 18%;
+      z-index: 4;
+    }
 
     /* Popup overlay */
     .popup {
@@ -181,7 +195,7 @@
 
       .speech-bubble::after,
       .speech-bubble::before {
-        display: none; /* Hide tail on small screens */
+        display: none;
       }
 
       .passcode-inputs {
@@ -195,6 +209,12 @@
         font-size: 5vw;
         width: 20%;
         color: white;
+      }
+
+      #errorMessage {
+        bottom: 45%;
+        right: 29%;
+        width: 50%;
       }
     }
   </style>
@@ -220,12 +240,14 @@
       <input type="text" maxlength="1" class="digit" />
       <input type="text" maxlength="1" class="digit" />
     </div>
+
+    <div id="errorMessage">Try again!</div>
   </div>
 
   <div id="popup" class="popup">
     <div class="popup-content">
-      <p>Correct! You've unlocked the phone. Now it's time to pick up your baggage.</p>
-      <button onclick="goToNext()">Landing</button>
+      <p>Correct! You've unlocked the phone!</p>
+      <button onclick="goToNext()">Landing in 3..2..1..</button>
     </div>
   </div>
 
@@ -236,6 +258,8 @@
     }
 
     const inputs = document.querySelectorAll('.digit');
+    const errorMessage = document.getElementById('errorMessage');
+
     inputs.forEach((input, index) => {
       input.addEventListener('input', () => {
         // Only allow digits 0-9
@@ -248,14 +272,23 @@
 
         // Check if all inputs are filled
         const code = Array.from(inputs).map(i => i.value).join('');
-        if (code.length === inputs.length && code === '8671') {
-          document.getElementById('popup').style.display = 'flex';
+
+        if (code.length === inputs.length) {
+          if (code === '8671') {
+            errorMessage.style.display = 'none';      // hide error if correct
+            document.getElementById('popup').style.display = 'flex';
+          } else {
+            errorMessage.style.display = 'block';     // show error if wrong
+          }
+        } else {
+          errorMessage.style.display = 'none';        // hide error if input incomplete
         }
       });
     });
 
     function goToNext() {
-      window.location.href = '/game1/gg5-landed.html';
+      console.log("Redirecting now...");
+      window.location.href = 'game1/gg5-arrivals.html';
     }
   </script>
 
