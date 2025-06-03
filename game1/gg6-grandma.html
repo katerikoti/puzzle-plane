@@ -30,20 +30,16 @@
 
     .top-left-container {
       position: absolute;
-      top: 0%;
-      left: 10.7%;
-      max-width: 40%;
-      height: 75px; /* fixed height for vertical centering */
+      top: 5%;
+      left: 11%;
       display: flex;
       flex-direction: column;
-      justify-content: center;  /* vertical center */
-      align-items: center;      /* horizontal center */
-      text-align: center;
-      gap: 0.2rem;
+      gap: 1rem;
+      max-width: 40%;
     }
 
     .final-text {
-      font-size: 2vw;
+      font-size: 3vw;
       color: #5c4033;
       font-weight: bold;
       margin: 0;
@@ -51,7 +47,7 @@
 
     .links {
       display: flex;
-      gap: 0.5rem;
+      gap: 1rem;
     }
 
     .links a {
@@ -59,7 +55,7 @@
       color: #5c4033;
       text-decoration: none;
       border: 2.3px solid #5c4033;
-      padding: 0.4rem 1.3rem;
+      padding: 0.6rem 1.5rem;
       border-radius: 10px;
       transition: background-color 0.3s, color 0.3s;
     }
@@ -70,17 +66,19 @@
     }
 
     @media (max-width: 600px) {
-      .top-left-container {
-        max-width: 80%;
-        height: auto; /* let height adjust on smaller screens */
-        padding: 0 1rem;
-      }
       .final-text {
         font-size: 5vw;
       }
       .links a {
         font-size: 4vw;
         padding: 0.8rem 1rem;
+      }
+      .top-left-container {
+        max-width: 80%;
+        gap: 0.5rem;
+      }
+      .links {
+        gap: 1rem;
       }
     }
   </style>
@@ -90,8 +88,8 @@
     <div class="top-left-container">
       <p class="final-text">We're finally here!</p>
       <div class="links">
-        <a href="/index.html">Home</a>
-        <a href="/game1/grandma-game.html">Play again</a>
+        <a href="/home.html">Home</a>
+        <a href="/game1/gg6-grandma.html">Play again</a>
       </div>
     </div>
   </div>
