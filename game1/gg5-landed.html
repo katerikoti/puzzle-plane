@@ -29,7 +29,6 @@
       padding: 1em;
     }
 
-    /* Inputs */
     .input-row {
       position: absolute;
       left: 73%;
@@ -75,7 +74,6 @@
     .input2 { top: 10.5%; }
     .input3 { top: 16.5%; }
 
-    /* Boys */
     .boys {
       position: absolute;
       bottom: 0;
@@ -85,7 +83,6 @@
       cursor: pointer;
     }
 
-    /* Speech bubble */
     .speech-bubble {
       position: absolute;
       left: 70%;
@@ -118,11 +115,10 @@
       filter: drop-shadow(1px 1px 1px rgba(0,0,0,0.2));
     }
 
-    /* Check button */
     .check-button {
       position: absolute;
-      left: 71%;
-      top: 23%;
+      left: 60%;   /* moved left from 63% */
+      top: 78%;    /* moved lower from 68% */
       padding: 8px 15px;
       font-size: 16px;
       border-radius: 6px;
@@ -137,7 +133,6 @@
       background-color: #7b5e3c;
     }
 
-    /* Completion popup */
     #completionPopup {
       display: none;
       position: absolute;
@@ -173,7 +168,6 @@
       background-color: #218838;
     }
 
-    /* Responsive adjustments */
     @media (max-width: 600px) {
       .input-row input {
         width: 16vw;
@@ -241,39 +235,39 @@
   </div>
 
   <script>
-  function showHint(index) {
-    const hints = {
-      1: "➡️",   // Exit
-      2: "🚌",   // Bus
-      3: "🚕"    // Taxi
-    };
-    document.getElementById('hint' + index).textContent = hints[index];
-  }
-
-  function checkAnswers() {
-    const correctWords = ['exit', 'bus', 'taxi'];
-    const userInputs = [
-      document.getElementById('word1').value.toLowerCase().trim(),
-      document.getElementById('word2').value.toLowerCase().trim(),
-      document.getElementById('word3').value.toLowerCase().trim()
-    ];
-
-    if (userInputs.every((word, i) => word === correctWords[i])) {
-      document.getElementById("completionPopup").style.display = "block";
-    } else {
-      alert("Something's not right. Try again!");
+    function showHint(index) {
+      const hints = {
+        1: "➡️",
+        2: "🚌",
+        3: "🚕"
+      };
+      document.getElementById('hint' + index).textContent = hints[index];
     }
-  }
 
-  function closePopup() {
-    document.getElementById("completionPopup").style.display = "none";
-    window.location.href = "/game1/gg6-grandma.html"; // 👈 Redirect here
-  }
+    function checkAnswers() {
+      const correctWords = ['exit', 'bus', 'taxi'];
+      const userInputs = [
+        document.getElementById('word1').value.toLowerCase().trim(),
+        document.getElementById('word2').value.toLowerCase().trim(),
+        document.getElementById('word3').value.toLowerCase().trim()
+      ];
 
-  document.querySelector('.boys').addEventListener('click', () => {
-    document.querySelector('.speech-bubble').style.display = 'none';
-  });
-</script>
+      if (userInputs.every((word, i) => word === correctWords[i])) {
+        document.getElementById("completionPopup").style.display = "block";
+      } else {
+        alert("Something's not right. Try again!");
+      }
+    }
+
+    function closePopup() {
+      document.getElementById("completionPopup").style.display = "none";
+      window.location.href = "/game1/gg6-grandma.html";
+    }
+
+    document.querySelector('.boys').addEventListener('click', () => {
+      document.querySelector('.speech-bubble').style.display = 'none';
+    });
+  </script>
 
 </body>
 </html>
