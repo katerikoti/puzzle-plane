@@ -31,38 +31,68 @@
     .top-left-container {
       position: absolute;
       top: 5%;
-      left: 11%;
+      left: 5%;
+      right: 5%;
+      max-width: 90%;
       display: flex;
       flex-direction: column;
-      gap: 1rem;
-      max-width: 40%;
+      gap: 0rem;
+      align-items: center;
+      padding: 0vw;
+      box-sizing: border-box;
+      background: rgba(255 255 255 / 0.8);
+      border-radius: 10px;
     }
 
     .final-text {
-      font-size: 3vw;
+      font-size: 4vw;
       color: #5c4033;
       font-weight: bold;
-      margin: 0;
+      margin: 0 0 0.5rem 0;
+      text-align: center;
     }
 
     .links {
       display: flex;
       gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+      width: 100%;
     }
 
     .links a {
-      font-size: 1.5vw;
+      font-size: 3vw;
       color: #5c4033;
       text-decoration: none;
       border: 2.3px solid #5c4033;
-      padding: 0.6rem 1.5rem;
+      padding: 0.8rem 1.5rem;
       border-radius: 10px;
       transition: background-color 0.3s, color 0.3s;
+      font-weight: bold;
+      white-space: nowrap;
     }
 
     .links a:hover {
       background-color: #5c4033;
       color: white;
+    }
+
+    @media (min-width: 601px) {
+      .final-text {
+        font-size: 2.2vw;
+      }
+      .links a {
+        font-size: 1.5vw;
+        padding: 0.6rem 1.5rem;
+      }
+      .top-left-container {
+        max-width: 40%;
+        top: 1%;
+        left: 11%;
+        right: auto;
+        padding: 0.5vw;
+        background: none;
+      }
     }
 
     @media (max-width: 600px) {
@@ -88,8 +118,8 @@
     <div class="top-left-container">
       <p class="final-text">We're finally here!</p>
       <div class="links">
-        <a href="/home.html">Home</a>
-        <a href="/game1/gg6-grandma.html">Play again</a>
+        <a href="/index.html">Home</a>
+        <a href="/game1/grandma-game.html">Play again</a>
       </div>
     </div>
   </div>
