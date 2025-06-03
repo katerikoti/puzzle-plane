@@ -53,15 +53,19 @@
       position: absolute;
       left: 5%;
       bottom: 59%;
-      width: 31%;
+      max-width: 35vw;
+      min-width: 180px;
       background: white;
       border: 1px solid rgba(0,0,0,0.5);
       border-radius: 12px;
-      padding: 1vw;
-      font-size: 1.1vw;
+      padding: 1em;
+      font-size: 1rem;
+      line-height: 1.3;
       color: #333;
       box-shadow: 2px 2px 6px rgba(0,0,0,0.2);
       z-index: 3;
+      word-wrap: break-word;
+      box-sizing: border-box;
     }
 
     .speech-bubble::after {
@@ -96,24 +100,27 @@
       background: rgba(255, 255, 255, 0.85);
       border: 1px solid rgba(0,0,0,0.5);
       border-radius: 12px;
-      padding: 1vw;
-      width: 15%;
-      font-size: 1vw;
+      padding: 1em;
+      max-width: 35vw;
+      min-width: 200px;
+      font-size: 1rem;
       color: #333;
       box-shadow: 2px 2px 6px rgba(0,0,0,0.2);
       z-index: 4;
+      box-sizing: border-box;
     }
 
     .checklist-small h4 {
-      margin: 0 0 8px 0;
+      margin: 0 0 0.5em 0;
       font-weight: bold;
-      font-size: 1vw;
+      font-size: 1.2rem;
       text-align: center;
     }
 
     .checklist-item {
-      margin: 0.4vw 0;
+      margin: 0.3em 0;
       user-select: none;
+      font-size: 1rem;
     }
 
     .checklist-item.checked::before {
@@ -184,17 +191,26 @@
 
     @media (max-width: 600px) {
       .speech-bubble {
-        font-size: 3vw;
-        padding: 2vw;
+        font-size: 1.6rem;
+        padding: 1.2em;
+        max-width: 80vw;
+        min-width: unset;
+        bottom: 60%;
       }
 
       .checklist-small {
-        font-size: 3vw;
-        padding: 2vw;
+        font-size: 1.6rem;
+        padding: 1.2em;
+        max-width: 80vw;
+        min-width: unset;
       }
 
       .checklist-small h4 {
-        font-size: 4vw;
+        font-size: 2rem;
+      }
+
+      .checklist-item {
+        font-size: 1.6rem;
       }
     }
   </style>
