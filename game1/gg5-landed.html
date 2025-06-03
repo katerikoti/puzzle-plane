@@ -14,9 +14,11 @@
       display: flex;
       justify-content: center;
       align-items: center;
+      min-height: 100vh;
     }
 
     .game-window {
+      position: relative; /* crucial for absolute children positioning */
       background: white url('https://i.imgur.com/YDX6T6A.png') no-repeat center center;
       background-size: cover;
       border-radius: 25px;
@@ -24,31 +26,47 @@
       width: 95vw;
       max-width: 800px;
       aspect-ratio: 16 / 10;
-      position: relative;
       overflow: hidden;
-      padding: 1em;
+      padding: 0;
     }
 
+    /* input rows container */
     .input-row {
       position: absolute;
-      left: 73%;
-      width: auto;
       display: flex;
       align-items: center;
       gap: 5%;
+      /* debug background - remove if you want */
+      /* background: rgba(255, 0, 0, 0.1); */
     }
 
+    /* Individually position input rows inside the container */
+    .input1 {
+      top: 40%;
+      left: 70%;
+    }
+
+    .input2 {
+      top: 46%;
+      left: 70%;
+    }
+
+    .input3 {
+      top: 52%;
+      left: 70%;
+    }
+
+    /* Inputs style */
     .input-row input {
       width: 6vw;
+      min-width: 80px;
       background-color: transparent;
       border: 2px solid #5c4033;
       font-size: 16px;
-      padding: 0.3vw 0.2vw;
+      padding: 0.3vw 0.4vw;
       color: #333;
       outline: none;
-      box-shadow: none;
       border-radius: 6px;
-      flex-grow: 0;
       appearance: none;
     }
 
@@ -69,10 +87,6 @@
       font-size: 16px;
       margin-left: 0.3vw;
     }
-
-    .input1 { top: 4.5%; }
-    .input2 { top: 10.5%; }
-    .input3 { top: 16.5%; }
 
     .boys {
       position: absolute;
@@ -115,10 +129,11 @@
       filter: drop-shadow(1px 1px 1px rgba(0,0,0,0.2));
     }
 
+    /* Check button positioned absolutely */
     .check-button {
       position: absolute;
-      left: 60%;   /* moved left from 63% */
-      top: 78%;    /* moved lower from 68% */
+      left: 71%;
+      top: 58%;
       padding: 8px 15px;
       font-size: 16px;
       border-radius: 6px;
@@ -168,6 +183,7 @@
       background-color: #218838;
     }
 
+    /* Responsive adjustments */
     @media (max-width: 600px) {
       .input-row input {
         width: 16vw;
@@ -206,7 +222,7 @@
       Oh no! The letters on the sign got mixed up!
     </div>
 
-    <img class="boys" src="https://i.imgur.com/rctonWZ.png" alt="Two boys" onclick="toggleSpeechBubble()" />
+    <img class="boys" src="https://i.imgur.com/rctonWZ.png" alt="Two boys" />
 
     <div class="input-row input1">
       <input type="text" placeholder="_____" id="word1" maxlength="5" />
@@ -237,9 +253,9 @@
   <script>
     function showHint(index) {
       const hints = {
-        1: "➡️",
-        2: "🚌",
-        3: "🚕"
+        1: "➡️",   // Exit
+        2: "🚌",   // Bus
+        3: "🚕"    // Taxi
       };
       document.getElementById('hint' + index).textContent = hints[index];
     }
