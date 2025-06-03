@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>We Landed!</title>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      font-family: Arial, sans-serif;
+      background: #e0f7fa;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .game-window {
+      background: white;
+      border-radius: 25px;
+      box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+      width: 95vw;
+      max-width: 800px;
+      aspect-ratio: 16 / 10;
+      position: relative;
+      overflow: hidden;
+      padding: 2vw;
+    }
+
+    .message {
+      font-size: 2vw;
+      text-align: center;
+      color: #333;
+      margin-top: 10%;
+    }
+
+    .next-button {
+      margin-top: 4vw;
+      padding: 1vw 2vw;
+      font-size: 1.5vw;
+      border: none;
+      border-radius: 12px;
+      background-color: #007bff;
+      color: white;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .next-button:hover {
+      background-color: #0056b3;
+    }
+
+    @media (max-width: 600px) {
+      .message {
+        font-size: 4vw;
+      }
+
+      .next-button {
+        font-size: 4vw;
+        padding: 2vw 4vw;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="game-window">
+    <div class="message">
+      🎉 We just landed safely in Czechia!<br/>
+      Let's find Grandma!
+    </div>
+  </div>
+
+  <script>
+    function goToNext() {
+      window.location.href = '/game1/next-page.html'; // Replace with the next real file
+    }
+  </script>
+
+</body>
+</html>

@@ -100,9 +100,9 @@
     .passcode-inputs {
       position: absolute;
       bottom: 33.5%;
-      right: 11%;
+      right: 11.6%;
       display: flex;
-      gap: 1.2vw;
+      gap: 1vw;
       z-index: 3;
     }
 
@@ -111,7 +111,7 @@
       height: 2vw;
       font-size: 2vw;
       text-align: center;
-      background: white;
+      background: transparent;
       border: none;
       border-radius: 0;
       color: white;
@@ -206,7 +206,18 @@
       <input type="text" maxlength="1" class="digit" />
     </div>
   </div>
-
+<div id="tryAgainMsg" style="
+  position: absolute;
+  bottom: 36%;
+  right: 17%;
+  color: red;
+  font-size: 1.2vw;
+  font-weight: bold;
+  z-index: 4;
+  display: none;
+">
+  Try again!
+</div>
   <div id="popup" class="popup">
     <div class="popup-content">
       <p>Correct! You've unlocked the phone.</p>
@@ -214,32 +225,44 @@
     </div>
   </div>
 
-  <script>
-    function toggleBubble() {
-      const bubble = document.getElementById('speechBubble');
-      bubble.style.display = bubble.style.display === 'none' ? 'block' : 'none';
-    }
+<script>
+  function toggleBubble() {
+    const bubble = document.getElementById('speechBubble');
+    bubble.style.display = bubble.style.display === 'none' ? 'block' : 'none';
+  }
 
-    const inputs = document.querySelectorAll('.digit');
-    inputs.forEach((input, index) => {
-      input.addEventListener('input', () => {
-        input.value = input.value.replace(/[^0-9]/g, '');
+  const inputs = document.querySelectorAll('.digit');
+  const tryAgainMsg = document.getElementById('tryAgainMsg');
 
-        if (input.value.length === 1 && index < inputs.length - 1) {
-          inputs[index + 1].focus();
-        }
+  inputs.forEach((input, index) => {
+    input.addEventListener('input', () => {
+      input.value = input.value.replace(/[^0-9]/g, '');
 
-        const code = Array.from(inputs).map(i => i.value).join('');
-        if (code.length === inputs.length && code === '8671') {
+      if (input.value.length === 1 && index < inputs.length - 1) {
+        inputs[index + 1].focus();
+      }
+
+      const code = Array.from(inputs).map(i => i.value).join('');
+
+      if (code.length === inputs.length) {
+        if (code === '8671') {
           document.getElementById('popup').style.display = 'flex';
+        } else {
+          tryAgainMsg.style.display = 'block';
+          setTimeout(() => {
+            tryAgainMsg.style.display = 'none';
+          }, 2000);
+
+          inputs.forEach(i => i.value = '');
+          inputs[0].focus();
         }
-      });
+      }
     });
+  });
 
-    function goToNext() {
-      window.location.href = '/game1/gg5-landed.html';
-    }
-  </script>
-
+  function goToNext() {
+    window.location.href = '/game1/gg5-landed.html';
+  }
+</script>
 </body>
 </html>
