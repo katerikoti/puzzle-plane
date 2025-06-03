@@ -5,130 +5,146 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>We Landed!</title>
   <style>
-    html, body {
-      margin: 0;
-      padding: 0;
-      height: 100%;
-      font-family: Arial, sans-serif;
-      background: #e0f7fa;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  font-family: Arial, sans-serif;
+  background: #e0f7fa;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
-    .game-window {
-      background: white url('https://i.imgur.com/YDX6T6A.png') no-repeat center center;
-      background-size: cover;
-      border-radius: 25px;
-      box-shadow: 0 8px 16px rgba(0,0,0,0.2);
-      width: 95vw;
-      max-width: 800px;
-      aspect-ratio: 16 / 10;
-      position: relative;
-      overflow: hidden;
-    }
+.game-window {
+  background: white url('https://i.imgur.com/YDX6T6A.png') no-repeat center center;
+  background-size: cover;
+  border-radius: 25px;
+  box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+  width: 95vw;
+  max-width: 800px;
+  aspect-ratio: 16 / 10;
+  position: relative;
+  overflow: hidden;
+}
 
-    .input-row {
-      position: absolute;
-      left: 70%;
-      width: 5%; /* even shorter */
-      display: flex;
-      align-items: center;
-      gap: 5%;
-    }
+/* Inputs */
+.input-row {
+  position: absolute;
+  left: 73%;
+  width: auto;
+  display: flex;
+  align-items: center;
+  gap: 5%;
+}
 
-    .input-row input {
-      flex-grow: 1;
-      background-color: transparent; /* transparent, no grey */
-      border: 2px solid #5c4033; /* brown border */
-      font-size: 1.3vw;
-      padding: 0.4vw 0.2vw;
-      color: #333;
-      outline: none;
-      border-radius: 6px;
-    }
+.input-row input {
+  width: 6vw;
+  background-color: transparent;
+  border: 2px solid #5c4033;
+  font-size: 16px; /* fixed size */
+  padding: 0.3vw 0.2vw;
+  color: #333;
+  outline: none;
+  box-shadow: none;
+  border-radius: 6px;
+  flex-grow: 0;
+  appearance: none;
+}
 
-    .hint-button {
-      background: none;
-      border: none;
-      font-size: 1.4vw;
-      cursor: pointer;
-      color: #5c4033;
-    }
+.input-row input::placeholder {
+  color: #a67c52;
+  letter-spacing: 2px;
+}
 
-    .hint {
-      font-size: 1.4vw;
-      margin-left: 0.3vw;
-    }
+.hint-button {
+  background: none;
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
+  color: #5c4033;
+}
 
-    .input1 { top: 15%; }
-    .input2 { top: 25%; }
-    .input3 { top: 35%; }
+.hint {
+  font-size: 16px;
+  margin-left: 0.3vw;
+}
 
-    .boys {
-      position: absolute;
-      bottom: 0;
-      left: 55%;
-      width: 28%;
-      transform: translateX(-50%);
-    }
+.input1 { top: 3%; }
+.input2 { top: 9%; }
+.input3 { top: 15%; }
 
-    .speech-bubble {
-      position: absolute;
-      left: 50%;
-      top: 58%;
-      transform: translate(-50%, -100%);
-      background: white;
-      border: 2px solid #333;
-      border-radius: 20px;
-      padding: 1vw 2vw;
-      font-size: 1.8vw;
-      text-align: center;
-      box-shadow: 2px 2px 5px rgba(0,0,0,0.3);
-      max-width: 60%;
-    }
+/* Boys stay same size */
+.boys {
+  position: absolute;
+  bottom: 0;
+  left: 70%;
+  width: 28%;
+  transform: translateX(-50%);
+}
 
-    .speech-bubble::after {
-      content: "";
-      position: absolute;
-      bottom: -20px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 0;
-      height: 0;
-      border-left: 15px solid transparent;
-      border-right: 15px solid transparent;
-      border-top: 20px solid white;
-      filter: drop-shadow(1px 1px 1px rgba(0,0,0,0.2));
-    }
+/* Speech bubble stays readable and fixed */
+.speech-bubble {
+  position: absolute;
+  left: 70%;
+  bottom: 34%;
+  transform: translateX(-50%);
+  background: white;
+  border: 2px solid #333;
+  border-radius: 20px;
+  padding: 10px 20px;
+  font-size: 18px;
+  text-align: center;
+  box-shadow: 2px 2px 5px rgba(0,0,0,0.3);
+  max-width: 60%;
+  width: fit-content;
+  min-width: 120px;
+}
 
-    @media (max-width: 600px) {
-      .input-row input, .hint-button, .hint {
-        font-size: 3.5vw;
-        padding: 1vw;
-      }
+.speech-bubble::after {
+  content: "";
+  position: absolute;
+  bottom: -20px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 0;
+  border-left: 15px solid transparent;
+  border-right: 15px solid transparent;
+  border-top: 20px solid white;
+  filter: drop-shadow(1px 1px 1px rgba(0,0,0,0.2));
+}
 
-      .input-row {
-        width: 20%;
-      }
+/* Keep sizes constant on small screens */
+@media (max-width: 600px) {
+  .input-row input {
+    width: 16vw;
+    font-size: 16px;
+    padding: 5px;
+  }
 
-      .speech-bubble {
-        font-size: 4vw;
-        padding: 2vw;
-        max-width: 80%;
-      }
+  .hint-button, .hint {
+    font-size: 16px;
+  }
 
-      .speech-bubble::after {
-        border-left: 10px solid transparent;
-        border-right: 10px solid transparent;
-        border-top: 15px solid white;
-        bottom: -15px;
-      }
+  .speech-bubble {
+    font-size: 18px;
+    padding: 10px 20px;
+    bottom: 34%;
+  }
 
-      .boys {
-        width: 45%;
-      }
-    }
+  .speech-bubble::after {
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-top: 15px solid white;
+    bottom: -15px;
+  }
+
+  .boys {
+    width: 28%;
+    left: 70%;
+  }
+}
   </style>
 </head>
 <body>
@@ -141,19 +157,19 @@
     <img class="boys" src="https://i.imgur.com/rctonWZ.png" alt="Two boys" />
 
     <div class="input-row input1">
-      <input type="text" placeholder="_____" id="word1" />
+      <input type="text" placeholder="_____" id="word1" maxlength="5" />
       <button class="hint-button" onclick="showHint(1)">❓</button>
       <span class="hint" id="hint1"></span>
     </div>
 
     <div class="input-row input2">
-      <input type="text" placeholder="_____" id="word2" />
+      <input type="text" placeholder="_____" id="word2" maxlength="5" />
       <button class="hint-button" onclick="showHint(2)">❓</button>
       <span class="hint" id="hint2"></span>
     </div>
 
     <div class="input-row input3">
-      <input type="text" placeholder="_____" id="word3" />
+      <input type="text" placeholder="_____" id="word3" maxlength="5" />
       <button class="hint-button" onclick="showHint(3)">❓</button>
       <span class="hint" id="hint3"></span>
     </div>
