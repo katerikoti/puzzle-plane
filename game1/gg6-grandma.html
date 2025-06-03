@@ -30,22 +30,22 @@
 
     .top-left-container {
       position: absolute;
-      top: 5%;
-      left: 5%;
-      right: 5%;
-      max-width: 90%;
+      /* Position to fit sign on background - adjust these to fit exactly */
+      top: 0%;
+      left: 6%;
+      width: 35%; /* Fixed width relative to game window */
+      max-width: 280px; /* max width to avoid overflow on big screens */
+      padding: 0.2rem;
+      border-radius: 10px;
       display: flex;
       flex-direction: column;
       gap: 0rem;
       align-items: center;
-      padding: 0vw;
       box-sizing: border-box;
-      background: rgba(255 255 255 / 0.8);
-      border-radius: 10px;
     }
 
     .final-text {
-      font-size: 4vw;
+      font-size: clamp(14px, 2vw, 22px);
       color: #5c4033;
       font-weight: bold;
       margin: 0 0 0.5rem 0;
@@ -54,18 +54,18 @@
 
     .links {
       display: flex;
-      gap: 1rem;
+      gap: 0.7rem;
       justify-content: center;
       flex-wrap: wrap;
       width: 100%;
     }
 
     .links a {
-      font-size: 3vw;
+      font-size: clamp(14px, 2vw, 20px);
       color: #5c4033;
       text-decoration: none;
       border: 2.3px solid #5c4033;
-      padding: 0.8rem 1.5rem;
+      padding: 0.3rem 0.8rem;
       border-radius: 10px;
       transition: background-color 0.3s, color 0.3s;
       font-weight: bold;
@@ -77,38 +77,20 @@
       color: white;
     }
 
-    @media (min-width: 601px) {
+    @media (max-width: 500px) {
+      .top-left-container {
+        width: 80%;
+        max-width: none;
+        left: 10%;
+        top: 5%;
+        padding: 0.7rem;
+      }
       .final-text {
-        font-size: 2.2vw;
+        font-size: clamp(12px, 4vw, 18px);
       }
       .links a {
-        font-size: 1.5vw;
-        padding: 0.6rem 1.5rem;
-      }
-      .top-left-container {
-        max-width: 40%;
-        top: 1%;
-        left: 11%;
-        right: auto;
-        padding: 0.5vw;
-        background: none;
-      }
-    }
-
-    @media (max-width: 600px) {
-      .final-text {
-        font-size: 5vw;
-      }
-      .links a {
-        font-size: 4vw;
-        padding: 0.8rem 1rem;
-      }
-      .top-left-container {
-        max-width: 80%;
-        gap: 0.5rem;
-      }
-      .links {
-        gap: 1rem;
+        font-size: clamp(12px, 4vw, 18px);
+        padding: 0.6rem 1rem;
       }
     }
   </style>
