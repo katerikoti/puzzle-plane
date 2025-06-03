@@ -28,7 +28,7 @@
       overflow: hidden;
     }
 
-   .boys-container {
+    .boys-container {
       position: absolute;
       left: 0%;
       bottom: 0%;
@@ -45,8 +45,8 @@
 
     .speech-bubble {
       position: absolute;
-      bottom: 400%;
-      left: 100%;
+      bottom: 40%;
+      left: 95%;
       width: 100%;
       background: white;
       border: 1px solid rgba(0,0,0,0.5);
@@ -58,7 +58,6 @@
       z-index: 3;
     }
 
-    /* Bubble tail */
     .speech-bubble::after {
       content: "";
       position: absolute;
@@ -98,6 +97,26 @@
       width: auto;
     }
 
+    .passcode-inputs {
+      position: absolute;
+      bottom: 33.5%;
+      right: 11%;
+      display: flex;
+      gap: 1.2vw;
+      z-index: 3;
+    }
+
+    .digit {
+      width: 2vw;
+      height: 2vw;
+      font-size: 2vw;
+      text-align: center;
+      background: white;
+      border: none;
+      border-radius: 0;
+      color: white;
+    }
+
     @media (max-width: 600px) {
       .speech-bubble {
         font-size: 3vw;
@@ -109,7 +128,7 @@
 
       .speech-bubble::after,
       .speech-bubble::before {
-        display: none; /* Hide bubble tail on small screens if it overlaps */
+        display: none;
       }
 
       .digit {
@@ -117,29 +136,14 @@
         height: 8vw;
         font-size: 4vw;
       }
+
+.passcode-inputs {
+        bottom: 28%;
+        right: 18%;
+        gap: 2vw;
+      }
     }
 
-    .passcode-inputs {
-      position: absolute;
-      bottom: 39.5%;
-      right: 13.7%;
-      display: flex;
-      gap: 1vw;
-      z-index: 3;
-    }
-
-    .digit {
-      width: 2vw;
-      height: 2vw;
-      font-size: 2vw;
-      text-align: center;
-      background: transparent;
-      border: none;
-      border-radius: 0;
-      color: white;
-    }
-
-    /* Popup overlay */
     .popup {
       position: fixed;
       top: 0;
@@ -153,7 +157,6 @@
       z-index: 999;
     }
 
-    /* Popup box */
     .popup-content {
       background: rgba(255, 255, 255, 0.95);
       border-radius: 15px;
@@ -186,21 +189,22 @@
   <div class="game-window">
     <div class="boys-container" onclick="toggleBubble()">
       <img src="https://i.imgur.com/o1YNNzv.png" alt="Two boys" />
-       <div class="speech-bubble" id="speechBubble">
-      We are bored on the flight, but the phone is locked, so we can't play. Can you figure out the passcode?
-    </div>
+      <div class="speech-bubble" id="speechBubble">
+        We are bored on the flight, but the phone is locked, so we can't play. Can you figure out the passcode?
+      </div>
     </div>
 
     <div class="phone-image">
       <img src="https://i.imgur.com/dz0E8wD.png" alt="Locked phone" />
     </div>
-  </div>
 
-  <div class="passcode-inputs">
-    <input type="text" maxlength="1" class="digit" />
-    <input type="text" maxlength="1" class="digit" />
-    <input type="text" maxlength="1" class="digit" />
-    <input type="text" maxlength="1" class="digit" />
+    <!-- Moved inside .game-window -->
+    <div class="passcode-inputs">
+      <input type="text" maxlength="1" class="digit" />
+      <input type="text" maxlength="1" class="digit" />
+      <input type="text" maxlength="1" class="digit" />
+      <input type="text" maxlength="1" class="digit" />
+    </div>
   </div>
 
   <div id="popup" class="popup">
@@ -219,15 +223,12 @@
     const inputs = document.querySelectorAll('.digit');
     inputs.forEach((input, index) => {
       input.addEventListener('input', () => {
-        // Only allow digits 0-9
         input.value = input.value.replace(/[^0-9]/g, '');
 
-        // Auto-focus next input
         if (input.value.length === 1 && index < inputs.length - 1) {
           inputs[index + 1].focus();
         }
 
-        // If all inputs are filled, check code
         const code = Array.from(inputs).map(i => i.value).join('');
         if (code.length === inputs.length && code === '8671') {
           document.getElementById('popup').style.display = 'flex';
