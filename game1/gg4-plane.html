@@ -106,25 +106,27 @@
     .passcode-inputs {
       position: absolute;
       bottom: 36%;
-      right: 10%;
+      right: 6.5%;
       display: flex;
-      gap: 0.05%;
+      gap: 2%;
       z-index: 3;
       width: 18%; /* set width so digits fill nicely */
-      justify-content: space-between;
     }
 
     .digit {
-      width: 18%; /* equal fraction inside passcode-inputs */
-      aspect-ratio: 1 / 1;
-      font-size: 1.8vw;
-      text-align: center;
-      background: transparent;
-      border: 2px solid #333;
-      border-radius: 6px;
-      user-select: none;
-      box-sizing: border-box;
-    }
+  width: 18%; /* keep your sizing */
+  aspect-ratio: 1 / 1;
+  font-size: 1.8vw;
+  text-align: center;
+  background: transparent; /* no background */
+  border: none;             /* remove border */
+  color: white;             /* white digits */
+  outline: none;            /* remove outline on focus */
+  user-select: none;
+  box-sizing: border-box;
+  /* optionally add some letter spacing for better clarity */
+  letter-spacing: 0.1em;
+}
 
     /* Popup overlay */
     .popup {
@@ -192,6 +194,7 @@
       .digit {
         font-size: 5vw;
         width: 20%;
+        color: white;
       }
     }
   </style>
