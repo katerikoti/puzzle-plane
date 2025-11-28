@@ -15,6 +15,7 @@
       background-position: center;
       background-attachment: fixed;
       background-repeat: no-repeat;
+      background-color: #000; /* fallback while image loads */
     }
 
     h1 {
@@ -110,7 +111,10 @@
   <script>
     function startGame(number) {
       if (number === 1) {
-        window.location.href = "/game1/grandma-game.html"; // Replace with actual game URL
+        window.location.href = "game1/grandma-game.html"; // relative path to game folder
+      } else if (number === 2) {
+        // route the second window to the new game2 starter page
+        window.location.href = "game2/gg2-home.html";
       } else {
         alert("Coming soon!");
       }

@@ -1,0 +1,237 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Memory Game</title>
+    <style>
+  :root{--window-bg:#fcf2e1;--accent:#1e90ff}
+  html,body{height:100%;margin:0;font-family:Arial,Helvetica,sans-serif;background:#e0f7fa;display:flex;align-items:center;justify-content:center}
+  .game-window{width:95vw;max-width:900px;aspect-ratio:4/3;background:var(--window-bg);border-radius:24px;box-shadow:0 10px 24px rgba(0,0,0,.18);position:relative;padding:18px;box-sizing:border-box;overflow:hidden}
+      .header{position:absolute;top:25px;left:22px;right:18px;display:flex;align-items:center;justify-content:space-between;z-index:5}
+      .header h1{margin:0;font-size:clamp(18px,2.2vw,26px);color:#d2a565}
+  .controls{display:flex;gap:10px;align-items:center}
+  /* unified button style: same color, font and sizing for <button> and <a> with class="btn" */
+  /* reduce button height slightly and let flexbox vertically center the text */
+  .btn{--btn-height:25px;background:#d2a565;color:#fff;padding:0 12px;border-radius:8px;text-decoration:none;cursor:pointer;border:none;display:inline-flex;align-items:center;justify-content:center;box-sizing:border-box;height:var(--btn-height);font-family:inherit;font-size:14px;font-weight:600}
+  .btn:active{transform:translateY(1px)}
+  .info{font-size:14px;color:#d2a565;font-weight:700}
+
+  /* board */
+  /* board-wrap reserves space for header; board fills the wrap */
+    /* board */
+    /* board-wrap reserves space for header; board fills the wrap
+      Change --board-pad-top to move the board down (space for title/buttons).
+      Note: sizeCards() applies inline sizes to each .card; CSS changes to .card width/height may be overridden by JS.
+    */
+    .board-wrap{--board-pad-top:160px;width:min(720px,100%);margin:0 auto;padding:var(--board-pad-top) 12px 12px;box-sizing:border-box;height:calc(100% - (var(--board-pad-top) + 12px));display:flex;align-items:center;justify-content:center}
+  /* fixed 4x4 grid: always 4 columns; gaps reduced so cards are larger; board height will be determined by card sizes so we can align it to the bottom */
+    .board{display:grid;grid-template-columns:repeat(4,1fr);gap:15px;align-items:center;justify-items:center}
+
+  /* card: size to grid cell (percentage of board). remove fixed aspect-ratio so cells determine size */
+  .card{width:100%;height:100%;max-width:none;perspective:1000px;display:flex}
+  /* show hand cursor when hovering cards so it's clear they're clickable */
+  .card{cursor:pointer}
+  .card-inner{position:relative;width:100%;height:100%;transform-style:preserve-3d;transition:transform .45s;display:flex}
+  .card.flipped .card-inner{transform:rotateY(180deg)}
+  /* card face background so card boxes remain visible even if images fail to load */
+  .face{position:absolute;inset:0;border-radius:12px;display:flex;align-items:center;justify-content:center;backface-visibility:hidden;-webkit-backface-visibility:hidden;overflow:hidden;background:linear-gradient(#ffffff,#fbf7f2)}
+  /* images scale to available cell size without cropping */
+  .face img{max-width:100%;max-height:100%;object-fit:contain;border-radius:8px;display:block;pointer-events:none;user-select:none;-webkit-user-drag:none}
+      .face.front{transform:rotateY(0deg)}
+      .face.back{transform:rotateY(180deg);background:transparent}
+      .card.matched .card-inner{box-shadow:0 6px 14px rgba(0,200,83,.12);outline:4px solid rgba(0,200,83,.12)}
+
+  /* responsive */
+  /* keep 4 columns on all screen sizes per user request */
+  /* Mobile: let the game window stretch to device width while keeping the internal layout
+     and positions identical. This only applies on narrow viewports so desktop remains unchanged. */
+  @media (max-width: 600px) {
+    html,body{align-items:flex-start;padding:8px}
+    .game-window{width:100vw;max-width:100vw;margin:0;background:var(--window-bg);border-radius:12px;padding:12px;box-shadow:none}
+    /* slightly tighten header padding on small screens */
+    .header{left:12px;right:12px;top:18px}
+    /* reduce board-wrap horizontal padding so cards can use more width */
+    .board-wrap{padding:var(--board-pad-top) 6px 6px}
+    /* keep control buttons on one line and make them a bit smaller but visually identical */
+    .controls{gap:8px;flex-wrap:nowrap}
+    .btn{
+      --btn-height:22px; /* slightly smaller than desktop */
+      padding:0 10px;
+      font-size:13px;
+      font-weight:700;
+      white-space:nowrap; /* prevent text wrapping */
+      min-width:92px; /* keep a similar width so labels remain on one line */
+    }
+  }
+    </style>
+  </head>
+  <body>
+    <div class="game-window">
+      <div class="header">
+        <h1>Memory Game</h1>
+        <div class="controls">
+          <div class="info">Moves: <span id="moves">0</span></div>
+          <button id="restart" class="btn">Start again!</button>
+          <a class="btn" href="../index.html">Back to plane!</a>
+        </div>
+      </div>
+
+      <div class="board-wrap">
+        <div id="board" class="board" role="grid" aria-live="polite"></div>
+      </div>
+    </div>
+
+    <script>
+      // Config: backside and 8 face images (pairs)
+      const backsideImage = 'https://i.imgur.com/Pd1YlbS.png';
+      const pairImages = [
+        'https://i.imgur.com/YdH1t08.png',
+        'https://i.imgur.com/UBFvDbE.png',
+        'https://i.imgur.com/dRxkORO.png',
+        'https://i.imgur.com/Ad9bSRS.png',
+        'https://i.imgur.com/76NHfNq.png',
+        'https://i.imgur.com/ju1N59S.png',
+        'https://i.imgur.com/IpywQ6Q.png',
+        'https://i.imgur.com/G2e82Sc.png'
+      ];
+
+      const board = document.getElementById('board');
+      const movesEl = document.getElementById('moves');
+      const restartBtn = document.getElementById('restart');
+
+      let deck = [];
+      let first = null, second = null;
+      let lock = false;
+      let moves = 0, matches = 0;
+
+      function createDeck(){
+        const arr = [];
+        for(let i=0;i<pairImages.length;i++){ arr.push(i,i); }
+        // shuffle
+        for(let i=arr.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [arr[i],arr[j]]=[arr[j],arr[i]] }
+        return arr;
+      }
+
+      function build(){
+        board.innerHTML='';
+        deck = createDeck();
+        first=second=null; lock=false; moves=0; matches=0; movesEl.textContent='0';
+
+        deck.forEach((pairIndex, idx)=>{
+          const card = document.createElement('div'); card.className='card'; card.setAttribute('data-pair',pairIndex); card.setAttribute('role','button');
+          const inner = document.createElement('div'); inner.className='card-inner';
+
+          const front = document.createElement('div'); front.className='face front';
+          const back = document.createElement('div'); back.className='face back';
+
+          const fimg = document.createElement('img'); fimg.alt='back'; fimg.src=backsideImage; fimg.draggable=false; fimg.crossOrigin='anonymous';
+          fimg.addEventListener('error',()=>{ 
+            // try fetching the image and re-assigning (sometimes img.onerror fires but fetch succeeds due to timing/CORS)
+            fetch(backsideImage).then(r=>{
+              if(!r.ok) throw new Error('fetch-backside-status-'+r.status);
+              return r.blob();
+            }).then(blob=>{
+              const url = URL.createObjectURL(blob);
+              fimg.src = url;
+            }).catch(err=>{
+              console.warn('backside image load failed, using placeholder', err);
+              // replace missing backside with a small inline placeholder so the card remains visible
+              fimg.src = 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200"><rect width="100%" height="100%" fill="%23f5f5f5"/><text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" fill="%23888" font-size="36">?</text></svg>';
+            });
+          });
+          front.appendChild(fimg);
+
+          const bimg = document.createElement('img'); bimg.alt='pair-'+pairIndex; bimg.src=pairImages[pairIndex]; bimg.draggable=false; bimg.crossOrigin='anonymous';
+          bimg.addEventListener('error',()=>{ 
+            // attempt to fetch and use blob URL (may bypass some load quirks); if that fails, fall back to placeholder
+            fetch(pairImages[pairIndex]).then(r=>{
+              if(!r.ok) throw new Error('fetch-pair-'+pairIndex+'-status-'+r.status);
+              return r.blob();
+            }).then(blob=>{
+              const url = URL.createObjectURL(blob);
+              bimg.src = url;
+            }).catch(err=>{
+              console.warn('pair image load failed for', pairIndex, err);
+              bimg.src = 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200"><rect width="100%" height="100%" fill="%23fff6e8"/><text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" fill="%23d2a565" font-size="28">' + pairIndex + '</text></svg>';
+            });
+          });
+          back.appendChild(bimg);
+
+          inner.appendChild(front); inner.appendChild(back); card.appendChild(inner);
+
+          card.addEventListener('click',()=>onClick(card));
+          board.appendChild(card);
+        });
+      }
+
+      function onClick(card){
+        if(lock) return; if(card.classList.contains('matched')) return; if(card===first) return;
+        card.classList.add('flipped');
+        if(!first){ first = card; return; }
+        second = card; lock = true; moves++; movesEl.textContent = moves;
+
+        const a = first.getAttribute('data-pair'); const b = second.getAttribute('data-pair');
+        if(a===b){
+          first.classList.add('matched'); second.classList.add('matched'); matches++; resetTurn();
+          if(matches===pairImages.length){ setTimeout(()=>alert('Well done! You found all pairs.'),250); }
+        } else {
+          setTimeout(()=>{ first.classList.remove('flipped'); second.classList.remove('flipped'); resetTurn(); }, 1200);
+        }
+      }
+
+      function resetTurn(){ first=null; second=null; lock=false; }
+
+      // size cards so they're square and fit the board (always 4x4)
+      function sizeCards(){
+        const gap = 15; // must match CSS gap
+        const cols = 4, rows = 4;
+        const wrap = document.querySelector('.board-wrap');
+        const rect = wrap.getBoundingClientRect();
+        // available area inside wrap (account for padding via getBoundingClientRect)
+        const totalGapW = gap * (cols - 1);
+        const totalGapH = gap * (rows - 1);
+        const cellW = (rect.width - totalGapW) / cols;
+        let cellH = (rect.height - totalGapH) / rows;
+        // Some browsers/devices report 0 height when parent uses aspect-ratio or percentage-based
+        // heights (especially when served via file:// or during initial Live Server load). In that
+        // case fall back to using the available width so cards are still visible.
+        if (!cellH || cellH < 10) {
+          cellH = cellW; // fallback: use width-based sizing
+        }
+        // pick largest square that fits; increase min size slightly
+        const size = Math.floor(Math.max(36, Math.min(cellW, cellH)));
+        // apply size to each card and ensure board centers
+        document.querySelectorAll('.card').forEach(c => {
+          c.style.width = size + 'px';
+          c.style.height = size + 'px';
+        });
+        // set board width explicitly to exactly fit cols*size + gaps so layout is stable
+        const boardWidth = cols * size + totalGapW;
+        board.style.width = boardWidth + 'px';
+      }
+
+      restartBtn.addEventListener('click', ()=>{ build(); sizeCards(); });
+
+      // initialize
+      build();
+      // size after build (allow a tick for layout)
+      setTimeout(sizeCards, 50);
+      window.addEventListener('resize', () => { setTimeout(sizeCards, 50); });
+
+      // debug: log sizing values so you can see what's being used
+      function debugSize() {
+        const wrap = document.querySelector('.board-wrap');
+        const rect = wrap.getBoundingClientRect();
+        console.log('board-wrap rect', rect.width, rect.height, 'pad-top', getComputedStyle(wrap).getPropertyValue('--board-pad-top'));
+        const cards = document.querySelectorAll('.card');
+        console.log('cards count', cards.length);
+      }
+      // call once so devtools shows current values
+      setTimeout(debugSize, 120);
+
+      // (removed one-time reveal so cards start hidden immediately)
+
+    </script>
+  </body>
+</html>
